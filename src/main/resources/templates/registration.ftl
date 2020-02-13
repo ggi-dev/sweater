@@ -5,6 +5,6 @@ Add new user
 <#--<#if message??>
     ${message}
 </#if>-->
-    ${message!""}
+    ${message?ifExists}
 <@l.login "/registration" />
 </@c.page>
