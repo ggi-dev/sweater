@@ -4,6 +4,8 @@ import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.MessageRepo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +30,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Controller
+@Slf4j
 public class MainController {
 
     @Autowired
@@ -53,6 +56,9 @@ public class MainController {
 
         model.addAttribute( "messages", messages);
         model.addAttribute("filter", filter);
+
+        messages.forEach(msg -> log.debug("Have some message {}", msg.toString()));
+
         return "main";
     }
 
@@ -75,8 +81,7 @@ public class MainController {
             model.addAttribute("message", null);
             messageRepo.save(message);
         }
-
-        Iterable<Message> messages = messageRepo.findAll();
+        val messages = messageRepo.findAll();
         model.addAttribute("messages", messages);
         return "main";
     }
