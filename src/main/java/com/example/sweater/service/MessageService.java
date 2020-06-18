@@ -1,6 +1,5 @@
 package com.example.sweater.service;
 
-import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
 import com.example.sweater.domain.dto.MessageDto;
 import com.example.sweater.repos.MessageRepo;
@@ -23,6 +22,10 @@ public class MessageService {
     }
 
     public Page<MessageDto> messageListForUser(Pageable pageable, User currentUser, User author) {
-        return messageRepo.findByUser(pageable, currentUser, author);
+        if (currentUser.equals(author)) {
+            return messageRepo.findByUser(pageable, author);
+        } else {
+            return messageRepo.findByUser(pageable, currentUser, author);
+        }
     }
 }
